@@ -1,3 +1,19 @@
+# Déploiement de Drupal sur PLMshift
+
+## Contenu de ce dépôt
+
+Ce dépôt contient 
+- un script shell qui prépare une première distribution drupal
+- un script shell qui copie une première fois drupal dans le stockage persistant et à chaque fois les ajouts au site drupal
+- le dossier *web* qui contient vos ajous (modules, thèmes, etc) qui se recopie sur le stockage persistant de drupal
+
+## Cycle de vie de l'application
+
+- Dans le dossier web, apportez vos modifications et ajouts, puis relancez un *Build*
+- Dans le fichier *php-pre-start/drupal-sync.sh* ajouter les commandes de mise à jour, de maintenance manuelle (pour la reproductibilité)
+
+Pour que le site se redéploie à chaque modification du dépôt GIT, récupérer le trigger pour le Webhook de Gilab dans la console web en bas de la page du *BuildConfig*. Copier/Coller l'URL dans Gitlab *Settings->Webhook*
+
 # Déploiement de Drupal
 
 ## Prérequis
@@ -45,7 +61,7 @@ Il faudra ensuite refaire un *Start Build* dans la page du BuildConfig, car le p
 ### En ligne de commande
 
 ```
-oc new-app lamp-repository -pLAMP_REPOSITORY_URL=https://plmlab.math.cnrs.fr/cimpa/drupal.git --source-secret=plmlab -p APPLICATION_NAME=<un-nom-significatif>
+oc new-app lamp-repository -pSOURCE_REPOSITORY_URL=https://plmlab.math.cnrs.fr/cimpa/drupal.git --source-secret=plmlab -p APPLICATION_NAME=<un-nom-significatif>
 ```
 
 ### Supprimer l'application
@@ -55,3 +71,4 @@ oc delete all --selector=app=<un-nom-significatif>
 ```
 
 Remarque: la suppression ne supprime pas les stockages persistants (PVC applicatif et Mysql). En reprenant le même nom d'application, on retrouve les données.
+
