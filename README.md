@@ -15,7 +15,7 @@ Dans gitlab, allez dans Settings->Repository->Access Token. Ensuite, choisir un 
 
 ### Créer le secret correspondant dans OKD
 
-Dans le menu *Secrets* ->Create->Source Secret. Donner un nom au secret (ici on a choisit *plmlab*). Mettre dans le champ username le nom du Tokan, et dans password, la valeur du Token générée par Gitlab.
+Dans le menu *Secrets* ->Create->Source Secret. Donner un nom au secret (ici on a choisit *plmlab*). Mettre dans le champ username le nom du Token, et dans password, la valeur du Token généré par Gitlab.
 
 Ou bien en ligne de commande :
 
@@ -34,11 +34,13 @@ Aller dans le Catalog, choisir le Template LAMP (with repository)
 - Donner un nom significatif à *APPLICATION_NAME* 
 - Mettre l'URL de ce dépôt : https://plmlab.math.cnrs.fr/cimpa/drupal.git dans *LAMP_REPOSITORY_URL*
 
-Comme le dépôt est privé, il faut ajouter le "secret token" qui autorise à lire le dépôt :
+Sile dépôt est privé, il faut ajouter le "secret token" qui autorise à lire le dépôt :
 
 ```
 oc patch bc/<nom_application> -p '{"spec":{"source":{"sourceSecret":{"name":"plmlab"}}}}'
 ```
+
+Il faudra ensuite refaire un *Start Build* dans la page du BuildConfig, car le premier build aura échoué.
 
 ### En ligne de commande
 
